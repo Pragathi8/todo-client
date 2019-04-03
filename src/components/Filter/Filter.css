@@ -1,0 +1,11 @@
+.filterDropdown{
+    float: right;
+    width: 15%;
+    color: red;
+    background-color: aliceblue;
+    font-size: 13px;
+    font-family: serif;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+}

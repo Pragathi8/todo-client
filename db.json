@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    {
+      "id": "2a05d30f-8934-4f66-9a9e-f1715dc21f3c",
+      "text": "Woo-Hoo",
+      "completed": false
+    }
+  ],
+  "visibilityFilter": {
+    "value": "SHOW_ALL"
+  }
+}

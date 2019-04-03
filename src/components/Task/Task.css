@@ -1,0 +1,18 @@
+.task{
+    text-align: left;
+}
+.text{
+    font-size: 18px;
+    font-weight: 500;
+    font-variant: small-caps;
+}
+
+.completed{
+    text-decoration: line-through;
+}
+
+.delete{
+    float: right;
+    font-size: 20px;
+    color: red;
+}
