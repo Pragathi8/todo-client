@@ -17,7 +17,7 @@ class Card extends Component {
         }
 
         return (
-            <div className="card todo my-5">
+            <div className="card todo my-4">
                 <div className="card-header bg-dark text-light text-center">
                     ToDo..!!!
                 </div>

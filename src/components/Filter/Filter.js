@@ -9,11 +9,13 @@ class Filter extends Component {
 
     render() {
         return (
+            <div style={{overflow: "hidden"}}>
             <select className="filterDropdown" onChange={this.changeHandler}>
                 <option value={this.props.filterValues.SHOW_ALL}>SHOW ALL</option>
                 <option value={this.props.filterValues.SHOW_COMPLETED}>SHOW COMPLETED</option>
                 <option value={this.props.filterValues.SHOW_PENDING}>SHOW PENDING</option>
             </select>
+            </div>
         )
     }
 }
