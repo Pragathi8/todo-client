@@ -1,24 +1,6 @@
 {
   "tasks": [
     {
-      "id": "2a05d30f-8934-4f66-9a9e-f1715dc21f3c",
-      "userId": "1",
-      "text": "Woo-Hoo",
-      "completed": false
-    },
-    {
-      "id": "2a05d30f-8934-4f66-9a9e-f1715dc21f",
-      "userId": "2",
-      "text": "Hey",
-      "completed": false
-    },
-    {
-      "id": "f2c082ae-a157-4983-9cf2-1bc8fac39c8b",
-      "userId": "1",
-      "text": "ohh",
-      "completed": false
-    },
-    {
       "id": "b98823f7-36e9-499c-a831-8d06e497ec4c",
       "userId": "144cbda1-cc10-41cb-a6e5-aca829bc7a56",
       "text": "Woww",
@@ -55,6 +37,11 @@
       "id": "53f2b7ac-1ef2-4c08-afe2-514f19ee1362",
       "username": "Chaitu",
       "password": "asdf"
+    },
+    {
+      "id": "7bea04a1-780a-469e-b06b-37ed674845a8",
+      "username": "xyz",
+      "password": "123"
     }
   ]
 }

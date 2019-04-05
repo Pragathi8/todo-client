@@ -20,11 +20,7 @@ class App extends Component {
     this.state = {
       tasks: [],
       visibilityFilter: this.filterValues.SHOW_ALL,
-      users: [{
-        id: "1",
-        username: "Chaitu843",
-        password: "123456"
-      }],
+      users: [],
       isLoggedIn: false,
       userId: "",
       username: ""
@@ -123,26 +119,39 @@ class App extends Component {
   }
 
   componentDidMount() {
+    
     fetch(`${this.url}/users`)
-    .then(resp => resp.json())
-    .then(data => this.setState({
-      users: data
-    }));
-  }
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          users: data
+        })
+        let id = document.cookie.slice(9);
+        if (id) {
+          this.userLogin(data.find(user => user.id===id))
+        }
+      } );
+  }    //If userID exists in cookie, it gets the user from db and call userLogin method directly -- if not login page appears
 
   userLogin = (user) => {
     fetch(`${this.url}/tasks?userId=${user.id}`)
       .then(resp => resp.json())
-      .then(data => this.setState({
-        tasks: data,
-        isLoggedIn: true,
-        userId: user.id,
-        username: user.username,
-      })
-      );
+      .then(data => {
+        this.setState({
+          tasks: data,
+          isLoggedIn: true,
+          userId: user.id,
+          username: user.username,
+        })
+        let date = new Date();
+        date.setTime(date.getTime() + 5*60*1000)
+        document.cookie = `username=${user.id};expires=${date.toUTCString()}`; //setting a user whenever he is logged in and expiry time
+      });
+
+
   }
 
-  addUser = ({username,password}) => {
+  addUser = ({ username, password }) => {
     let newUser = {
       id: uuid.v4(),
       username,
@@ -173,13 +182,21 @@ class App extends Component {
       }))
   }
 
+  logOut = () => {
+    document.cookie = "username="; //Deleting cookie
+    this.setState({
+      isLoggedIn: false
+    })
+  }
+
   render() {
+
     return (
       <div className="App">
         {
-           this.state.isLoggedIn ?
+          this.state.isLoggedIn ?
             (<>
-              <Header addTodo={this.addTodo} />
+              <Header addTodo={this.addTodo} username={this.state.username} logOut={this.logOut} />
               <Filter changeFilter={this.changeFilter} filterValues={this.filterValues} />
               <Card tasks={this.state.tasks} visibilityFilter={this.state.visibilityFilter} filterValues={this.filterValues} toggleTodo={this.toggleTodo} deleteTodo={this.deleteTodo} />
             </>)
