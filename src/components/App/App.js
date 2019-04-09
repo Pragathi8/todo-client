@@ -11,7 +11,7 @@ import Card from '../Card/Card';
 class App extends Component {
   constructor(props) {
     super(props)
-    this.url = "http://localhost:3001";
+    this.url = "http://10.0.75.1:3001";
     this.filterValues = {
       SHOW_ALL: "SHOW_ALL",
       SHOW_COMPLETED: "SHOW_COMPLETED",
@@ -142,6 +142,7 @@ class App extends Component {
           isLoggedIn: true,
           userId: user.id,
           username: user.username,
+          visibilityFilter: this.filterValues.SHOW_ALL,
         })
         let date = new Date();
         date.setTime(date.getTime() + 5*60*1000)

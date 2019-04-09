@@ -17,10 +17,40 @@
       "userId": "53f2b7ac-1ef2-4c08-afe2-514f19ee1362",
       "text": "From Chaitu",
       "completed": false
+    },
+    {
+      "id": "717da499-a495-4bc8-99f5-6ebd7ce0f308",
+      "userId": "6411f732-a996-4de9-a6bd-fa6a1d27c1e1",
+      "text": "make coffee",
+      "completed": false
+    },
+    {
+      "id": "97ea8193-6300-4928-ac05-b3ca39911831",
+      "userId": "6411f732-a996-4de9-a6bd-fa6a1d27c1e1",
+      "text": "have Tea",
+      "completed": true
+    },
+    {
+      "id": "c7999324-9f75-4d6b-af11-9270ef05bbdd",
+      "userId": "aeb8491d-8ac0-42f8-8300-87080aa58477",
+      "text": "Hi",
+      "completed": true
+    },
+    {
+      "id": "22a153a0-dcb1-4b82-b7e1-c1966045cac8",
+      "userId": "aeb8491d-8ac0-42f8-8300-87080aa58477",
+      "text": "Hey",
+      "completed": false
+    },
+    {
+      "id": "3eaadbc7-8104-4418-9718-420f7b791057",
+      "userId": "aeb8491d-8ac0-42f8-8300-87080aa58477",
+      "text": "WassUp",
+      "completed": false
     }
   ],
   "visibilityFilter": {
-    "value": "SHOW_ALL"
+    "value": "SHOW_COMPLETED"
   },
   "users": [
     {
@@ -42,6 +72,21 @@
       "id": "7bea04a1-780a-469e-b06b-37ed674845a8",
       "username": "xyz",
       "password": "123"
+    },
+    {
+      "id": "6411f732-a996-4de9-a6bd-fa6a1d27c1e1",
+      "username": "himmy",
+      "password": "himmy"
+    },
+    {
+      "id": "02fbb164-3d0f-4605-9120-ee28cb8d2530",
+      "username": "Hey",
+      "password": "123"
+    },
+    {
+      "id": "bcfbde67-474b-4b97-8df0-7b787ec41dc1",
+      "username": "wow",
+      "password": "12"
     }
   ]
 }
