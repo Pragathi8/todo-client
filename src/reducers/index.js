@@ -1,3 +1,11 @@
 import {combineReducers} from 'redux';
 
-export default combineReducers({});
+import todosReducer from './todosReducer';
+import filterReducer from './filterReducer';
+import authReducer from './authReducer';
+
+export default combineReducers({
+    todos: todosReducer,
+    visibilityFilter: filterReducer,
+    authInfo: authReducer
+});

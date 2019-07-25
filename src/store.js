@@ -5,7 +5,12 @@ import rootReducer from './reducers/index';
 
 const initialState = {
     tasks: [],
-    visibilityFilter: "SHOW_ALL"
+    visibilityFilter: "SHOW_ALL",
+    authInfo: {
+        user: {},
+        errorMsg: '',
+        isLoggedIn: false,
+    }
 }
 
 const middleware = [thunk]
