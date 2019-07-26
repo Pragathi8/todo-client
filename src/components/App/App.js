@@ -4,10 +4,8 @@ import uuid from 'uuid';
 
 import './App.css';
 
-import Login from '../Login/Login';
-import Header from '../Header/Header';
-import Filter from '../Filter/Filter';
-import Card from '../Card/Card';
+import store from '../../store';
+import Routing from '../Routing/Routing';
 
 class App extends Component {
   constructor(props) {
@@ -192,21 +190,18 @@ class App extends Component {
   }
 
   render() {
-
     return (
-      <div className="App">
-        {
-          this.state.isLoggedIn ?
-            (<>
-              <Header addTodo={this.addTodo} username={this.state.username} logOut={this.logOut} />
-              <Filter changeFilter={this.changeFilter} filterValues={this.filterValues} />
-              <Card tasks={this.state.tasks} visibilityFilter={this.state.visibilityFilter} filterValues={this.filterValues} toggleTodo={this.toggleTodo} deleteTodo={this.deleteTodo} />
-            </>)
-            : <Login users={this.state.users} userLogin={this.userLogin} addUser={this.addUser} />
-        }
-      </div>
+      <Provider store = {store}>
+        <Routing />
+      </Provider>
     );
   }
 }
 
 export default App;
+
+
+/*
+* use this class methods while creating server
+* Trying to keep visibility filter state for only client side
+*/

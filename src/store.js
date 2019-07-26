@@ -1,16 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
+import filterValues from './constants/filterValues';
 import rootReducer from './reducers/index';
 
 const initialState = {
-    tasks: [],
-    visibilityFilter: "SHOW_ALL",
+    todos: [],
+    visibilityFilter: filterValues.SHOW_ALL,
     authInfo: {
         user: {},
         errorMsg: '',
         isLoggedIn: false,
-    }
+    },
 }
 
 const middleware = [thunk]

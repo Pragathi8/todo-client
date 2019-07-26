@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux';
 
+import {logOut} from '../../actions/actions';
 import Form from '../Form/form';
 
 class Header extends Component {
@@ -7,11 +9,16 @@ class Header extends Component {
     return (
       <nav className="navbar navbar-dark bg-dark">
         <span className="navbar-brand mb-0 h1" style={{color: "greenyellow"}}>{this.props.username}</span>
-        <Form addTodo={this.props.addTodo}/>
+        <Form />
         <button className="btn btn-warning logoutButton" onClick={this.props.logOut}>Log Out</button>
       </nav>
     )
   }
 }
 
-export default Header
+
+const mapStateToProps = state => ({
+  username: state.authInfo.username,
+});
+
+export default connect(mapStateToProps, {logOut})(Header);

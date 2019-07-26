@@ -1,7 +1,12 @@
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO } from '../actions/types';
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, CLEAR_TODOS, GET_TODOS } from '../actions/types';
 
 export default (state = [], action) => {
     switch (action.type) {
+        case GET_TODOS:
+            return [
+                ...state,
+                ...action.payload
+            ]
         case ADD_TODO:
             return [...state,
                     action.payload
@@ -16,6 +21,8 @@ export default (state = [], action) => {
                 })
         case DELETE_TODO:
             return  state.filter(todo => todo.id !== action.id);
+        case CLEAR_TODOS:
+            return []
         default:
             return state;
     }

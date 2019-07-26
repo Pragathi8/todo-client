@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux';
+
+import {addTodo} from '../../actions/actions';
 
 class form extends Component {
 
@@ -33,4 +36,5 @@ class form extends Component {
     }
 }
 
-export default form
+  
+export default connect(null, {addTodo})(form);
