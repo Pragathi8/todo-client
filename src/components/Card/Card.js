@@ -28,7 +28,7 @@ class Card extends Component {
                     {
                         todos.length ?
                             todos.map(task =>
-                                <Task key={task.id} task={task} visibilityFilter={this.props.visibilityFilter} toggleTodo={this.props.toggleTodo} deleteTodo={this.props.deleteTodo} />
+                                <Task key={task.id} task={task} />
                             ) : <li className="list-group-item" style={{ color: 'red' }}>Nothing to Show..!!!</li>}
                 </ul>
             </div>
@@ -36,10 +36,12 @@ class Card extends Component {
     }
 
     componentDidMount() {
-        this.props.getTodos();
+        this.props.getTodos(this.props.user.emalId);
     }
 }
+
 const mapStateToProps = state => ({
+    user: state.authInfo.user,
     todos: state.todos,
     visibilityFilter: state.visibilityFilter
 })

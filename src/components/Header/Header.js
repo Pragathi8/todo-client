@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
 
-import {logOut} from '../../actions/actions';
+import {logout} from '../../actions/actions';
 import Form from '../Form/form';
 
 class Header extends Component {
@@ -21,4 +21,4 @@ const mapStateToProps = state => ({
   username: state.authInfo.username,
 });
 
-export default connect(mapStateToProps, {logOut})(Header);
+export default connect(mapStateToProps, {logout})(Header);

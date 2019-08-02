@@ -1,4 +1,4 @@
-import { LOGIN_USER, LOGOUT_USER, CLEAR_ERROR_MSG } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_ERROR_MSG, ERROR_AUTHENTICATING } from "../actions/types";
 
 export default (state = {
     user: {},
@@ -8,12 +8,9 @@ export default (state = {
 
     switch (action.type) {
         case LOGIN_USER:
-            return action.payload.errorMsg ? {
-                ...state,
-                errorMsg: action.payload.errorMsg,
-            } : {
+            return {
                     ...state,
-                    user: action.payload.user,
+                    user: action.payload,
                     errorMsg: '',
                     isLoggedIn: true
                 }
@@ -29,6 +26,11 @@ export default (state = {
             return {
                 ...state,
                 errorMsg: ''
+            }
+        case ERROR_AUTHENTICATING:
+            return {
+                    ...state,
+                    errorMsg: action.payload.errorMsg,
             }
         default:
             return state;

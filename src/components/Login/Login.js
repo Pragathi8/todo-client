@@ -83,11 +83,12 @@ class Login extends Component {
             password: this.state.password,
             passwordDuplicate: this.state.passwordDuplicate
         })){
-            if(this.state.password!==this.setState.passwordDuplicate) {
+            if(this.state.password!==this.state.passwordDuplicate) {
                 this.setState({
                     errorMsg: "Passwords doesn't match..!!!"
                 })
             } else {
+                console.log('here');
                 this.props.registerUser(this.state.username, this.state.password);
                 /* this.setState({
                 *     existingUser: true,
@@ -108,7 +109,7 @@ class Login extends Component {
             this.state.existingUser ? 
             <>
                 <form className="loginForm">
-                {this.state.errorMsg && <div className="errorMsg">{this.state.errorMsg}</div>}
+                {!this.props.errorMsg && this.state.errorMsg && <div className="errorMsg">{this.state.errorMsg}</div>}
                 {this.props.errorMsg && <div className="errorMsg">{this.props.errorMsg}</div>}
                     <input className="loginText" type="text" name="username" placeholder="Enter your Username" value={this.state.username} onChange={this.changeHandler} /> <br />
                     <input className="loginText" type="password" name="password" placeholder="Enter your Password" value={this.state.password} onChange={this.changeHandler} /> <br />
@@ -119,7 +120,7 @@ class Login extends Component {
             : 
             <>
                 <form className="loginForm">
-                {this.state.errorMsg && <div className="errorMsg">{this.state.errorMsg}</div>}
+                {!this.props.errorMsg && this.state.errorMsg && <div className="errorMsg">{this.state.errorMsg}</div>}
                 {this.props.errorMsg && <div className="errorMsg">{this.props.errorMsg}</div>}
                     <input className="loginText" type="text" name="username"  placeholder="Create a Username" value={this.state.username} onChange={this.changeHandler} /> <br />
                     <input className="loginText" type="password" name="password" placeholder="Create a Password" value={this.state.password} onChange={this.changeHandler}/> <br />

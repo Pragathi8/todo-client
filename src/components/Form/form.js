@@ -20,7 +20,7 @@ class form extends Component {
 
     submitHandler = (e) => {
         e.preventDefault();
-        this.props.addTodo(this.state.task);
+        this.props.addTodo(this.props.user.emailId, this.state.task);
         this.setState({
             task: '',
         })
@@ -36,5 +36,7 @@ class form extends Component {
     }
 }
 
-  
-export default connect(null, {addTodo})(form);
+const mapStateToProps = state => ({
+    user: state.authInfo.user
+})
+export default connect(mapStateToProps, {addTodo})(form);

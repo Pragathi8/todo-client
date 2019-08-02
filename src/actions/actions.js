@@ -1,55 +1,49 @@
-import { ADD_TODO_URL, TOGGLE_TODO_URL, DELETE_TODO_URL, CHANGE_VISIBILITY_FILTER_URL, REGISTER_USER_URL, LOGIN_USER_URL, LOGOUT_USER_URL, GET_TODOS_URL } from './databaseRoutes';
-import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, CHANGE_VISIBILITY_FILTER, LOGIN_USER, LOGOUT_USER, CLEAR_ERROR_MSG, CLEAR_TODOS, GET_TODOS } from './types';
+import { ADD_TODO_URL, TOGGLE_TODO_URL, DELETE_TODO_URL, REGISTER_USER_URL, LOGIN_USER_URL, LOGOUT_USER_URL, GET_TODOS_URL } from './databaseRoutes';
+import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, CHANGE_VISIBILITY_FILTER, LOGIN_USER, LOGOUT_USER, CLEAR_ERROR_MSG, CLEAR_TODOS, GET_TODOS, ERROR_AUTHENTICATING } from './types';
 
-export const addTodo = () => dispatch => {
-    fetch(ADD_TODO_URL, {
-        method : 'POST',
+export const addTodo = (userId, task) => dispatch => {
+    fetch(`${ADD_TODO_URL}/${userId}/addTodo`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body : {
-
-        }
+        body: JSON.stringify({
+            task: task
+        })
     })
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: ADD_TODO,
-        payload: data
-    }))
+        .then(resp => resp.json())
+        .then(data => dispatch({
+            type: ADD_TODO,
+            payload: data
+        }))
 }
 
-export const toggleTodo = () => dispatch => {
-    fetch(TOGGLE_TODO_URL, {
-        method : 'PATCH',
+export const toggleTodo = (userId, id) => dispatch => {
+    fetch(`${TOGGLE_TODO_URL}/${userId}/toggleTodo/${id}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
-        body : {
-
-        }
     })
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: TOGGLE_TODO,
-        id: data.id
-    }))
+        .then(resp => resp.json())
+        .then(data => dispatch({
+            type: TOGGLE_TODO,
+            id: data.id
+        }))
 }
 
-export const deleteTodo = () => dispatch => {
-    fetch(DELETE_TODO_URL, {
-        method : 'DELETE',
+export const deleteTodo = (userId, id) => dispatch => {
+    fetch(`${DELETE_TODO_URL}/${userId}/deleteTodo/${id}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
-        body : {
-
-        }
     })
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: DELETE_TODO,
-        id: data.id
-    }))
+        .then(resp => resp.json())
+        .then(data => dispatch({
+            type: DELETE_TODO,
+            id: data.id
+        }))
 }
 
 export const changeFilter = (filter) => dispatch => {
@@ -59,31 +53,67 @@ export const changeFilter = (filter) => dispatch => {
     })
 }
 
-export const registerUser = (username, password) => dispatch => {
-    fetch(REGISTER_USER_URL)
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: LOGIN_USER,
-        payload: data
-    }))
+export const registerUser = (emailId, password) => dispatch => {
+    fetch(REGISTER_USER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            emailId: emailId,
+            password: password
+        })
+    })
+    .then(resp => {
+        if (resp.ok) resp.json().then(data => dispatch({
+            type: LOGIN_USER,
+            payload: data
+        }))
+        else {
+            resp.json().then(data => dispatch({
+                type: ERROR_AUTHENTICATING,
+                payload: {
+                    errorMsg: data.errorMsg
+                }
+            }))
+        }
+    })
 }
 
-export const login = (username, password) => dispatch => {
-    fetch(LOGIN_USER_URL)
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: LOGIN_USER,
-        payload: data
-    }))
+export const login = (emailId, password) => dispatch => {
+    fetch(LOGIN_USER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            emailId: emailId,
+            password: password
+        })
+    })
+    .then(resp => {
+        if (resp.ok) resp.json().then(data => dispatch({
+            type: LOGIN_USER,
+            payload: data
+        }))
+        else {
+            resp.json().then(data => dispatch({
+                type: ERROR_AUTHENTICATING,
+                payload: {
+                    errorMsg: data.errorMsg
+                }
+            }))
+        }
+    })
 }
 
 export const logout = () => dispatch => {
     fetch(LOGOUT_USER_URL)
-    .then(resp => resp.json())
-    .then(() => dispatch({
-        type: LOGOUT_USER,
-    }))
-    .then(() => clearTodos());
+        .then(resp => resp.json())
+        .then(() => dispatch({
+            type: LOGOUT_USER,
+        }))
+        .then(() => clearTodos());
 }
 
 export const clearErrorMsg = () => dispatch => {
@@ -98,11 +128,13 @@ export const clearTodos = () => dispatch => {
     })
 }
 
-export const getTodos = (id) => dispatch => {
-    fetch(GET_TODOS_URL)
-    .then(resp => resp.json())
-    .then(data => dispatch({
-        type: GET_TODOS,
-        payload: data
-    }))
+export const getTodos = (userId) => dispatch => {
+    fetch(`${GET_TODOS_URL}/${userId}`)
+        .then(resp => resp.json())
+        .then(data => dispatch({
+            type: GET_TODOS,
+            payload: data
+        }))
 }
+
+// IF we can catch the 400 response, then create new action in authReducer (ERROR_LOGGING_IN/REGISTERING)

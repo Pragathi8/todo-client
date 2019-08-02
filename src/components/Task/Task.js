@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {toggleTodo, deleteTodo} from '../../actions/actions';
 
 import './Task.css';
 
@@ -10,14 +12,17 @@ class Task extends Component {
         return (
             <li className={className} id={this.props.task.id}>
                 <span className="text" onClick = {(e) => {
-                    this.props.toggleTodo(e.target.parentElement.id);
+                    this.props.toggleTodo(this.props.user.emialId, e.target.parentElement.id);
                 }}> {this.props.task.text}
                 </span> <span className="delete" onClick = {(e) => {
-                    this.props.deleteTodo(e.target.parentElement.id);
+                    this.props.deleteTodo(this.props.user.emialId, e.target.parentElement.id);
                 }}>✁</span>
             </li>
         )
     }
 }
+const mapStateToProps = state => ({
+    user: state.authInfo.user
+})
 
-export default Task
+export default connect(mapStateToProps, {toggleTodo, deleteTodo})(Task);
