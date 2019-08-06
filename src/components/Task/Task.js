@@ -12,12 +12,11 @@ class Task extends Component {
         return (
             <li className={className} id={this.props.task.id}>
                 <span className="text" onClick = {(e) => {
-                    console.log('clicked');
                     this.props.toggleTodo(this.props.user.emailId, e.target.parentElement.id);
-                }}> {this.props.task.text}
+                }} title="click to toggle"> {this.props.task.text}
                 </span> <span className="delete" onClick = {(e) => {
                     this.props.deleteTodo(this.props.user.emailId, e.target.parentElement.id);
-                }}>✁</span>
+                }} title="click to delete">✁</span>
             </li>
         )
     }
