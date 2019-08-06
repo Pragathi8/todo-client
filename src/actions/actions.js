@@ -109,11 +109,12 @@ export const login = (emailId, password) => dispatch => {
 
 export const logout = () => dispatch => {
     fetch(LOGOUT_USER_URL)
-        .then(resp => resp.json())
-        .then(() => dispatch({
+        // .then(resp => resp.json())
+        .then(() => {
+            dispatch({
             type: LOGOUT_USER,
-        }))
-        .then(() => clearTodos());
+        })
+    })
 }
 
 export const clearErrorMsg = () => dispatch => {
@@ -138,3 +139,9 @@ export const getTodos = (userId) => dispatch => {
 }
 
 // IF we can catch the 400 response, then create new action in authReducer (ERROR_LOGGING_IN/REGISTERING)
+
+
+
+
+
+// On logout, clearTodos is not being called. Need to look into that!

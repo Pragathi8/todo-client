@@ -15,13 +15,14 @@ export class Routing extends Component {
                         (<>
                             <Header />
                             <Filter />
-                            <Card tasks={this.state.tasks} visibilityFilter={this.state.visibilityFilter} filterValues={this.filterValues} toggleTodo={this.toggleTodo} deleteTodo={this.deleteTodo} />
+                            <Card />
                         </>)
                         : <Login />
                 }
             </div>
         )
     }
+
 }
 
 const mapStateToProps = state => ({

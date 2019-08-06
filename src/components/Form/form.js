@@ -19,6 +19,7 @@ class form extends Component {
     }
 
     submitHandler = (e) => {
+        console.log('from submit handler', this.props.user.emailId);
         e.preventDefault();
         this.props.addTodo(this.props.user.emailId, this.state.task);
         this.setState({

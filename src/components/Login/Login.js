@@ -32,17 +32,20 @@ class Login extends Component {
     * reducing redundancy
     */
     validateForm(object){
+        let valid = true;
         for (const key in object) {
             if (object.hasOwnProperty(key)) {
                 const element = object[key];
                 if(!element){
+                    valid = false;
                     this.setState({
                         errorMsg : `${key} can't be empty`,
                     })
-                    return false;
-                } else return true;
+                    if(!valid) return valid;  
+                }
             }
         }
+        return valid;
     }
 
     /*

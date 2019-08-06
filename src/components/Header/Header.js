@@ -10,7 +10,7 @@ class Header extends Component {
       <nav className="navbar navbar-dark bg-dark">
         <span className="navbar-brand mb-0 h1" style={{color: "greenyellow"}}>{this.props.username}</span>
         <Form />
-        <button className="btn btn-warning logoutButton" onClick={this.props.logOut}>Log Out</button>
+        <button className="btn btn-warning logoutButton" onClick={this.props.logout}>Log Out</button>
       </nav>
     )
   }
@@ -18,7 +18,7 @@ class Header extends Component {
 
 
 const mapStateToProps = state => ({
-  username: state.authInfo.username,
+  username: state.authInfo.user.emailId,
 });
 
 export default connect(mapStateToProps, {logout})(Header);

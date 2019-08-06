@@ -3,10 +3,7 @@ import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, CLEAR_TODOS, GET_TODOS } from '../a
 export default (state = [], action) => {
     switch (action.type) {
         case GET_TODOS:
-            return [
-                ...state,
-                ...action.payload
-            ]
+            return action.payload;
         case ADD_TODO:
             return [...state,
                     action.payload
