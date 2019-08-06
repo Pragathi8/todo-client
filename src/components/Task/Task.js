@@ -5,6 +5,14 @@ import {toggleTodo, deleteTodo} from '../../actions/actions';
 import './Task.css';
 
 class Task extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             isLoading : false
+        }
+    }
+    
     render() {
         let className = "list-group-item task";
 
@@ -12,13 +20,29 @@ class Task extends Component {
         return (
             <li className={className} id={this.props.task.id}>
                 <span className="text" onClick = {(e) => {
+                    this.setState({
+                        isLoading: true
+                    })
                     this.props.toggleTodo(this.props.user.emailId, e.target.parentElement.id);
                 }} title="click to toggle"> {this.props.task.text}
-                </span> <span className="delete" onClick = {(e) => {
+                </span>
+                <span className="delete" onClick = {(e) => {
+                     this.setState({
+                        isLoading: true
+                    })
                     this.props.deleteTodo(this.props.user.emailId, e.target.parentElement.id);
                 }} title="click to delete">✁</span>
+                {this.state.isLoading && <span className="loader"></span>} 
             </li>
         )
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps !== this.props){
+            this.setState({
+                isLoading: false
+            })
+        }
     }
 }
 const mapStateToProps = state => ({
