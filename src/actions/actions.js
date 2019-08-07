@@ -64,20 +64,25 @@ export const registerUser = (emailId, password) => dispatch => {
             password: password
         })
     })
-    .then(resp => {
-        if (resp.ok) resp.json().then(data => dispatch({
-            type: LOGIN_USER,
-            payload: data
-        }))
-        else {
-            resp.json().then(data => dispatch({
-                type: ERROR_AUTHENTICATING,
-                payload: {
-                    errorMsg: data.errorMsg
-                }
-            }))
-        }
-    })
+        .then(resp => {
+            if (resp.ok) resp.json().then(data => {
+                let date = new Date();
+                date.setTime(date.getTime() + 5 * 60 * 1000)
+                document.cookie = `username=${data.emailId};expires=${date.toUTCString()}`; //setting a user whenever he is logged in and expiry time
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: data
+                })
+            })
+            else {
+                resp.json().then(data => dispatch({
+                    type: ERROR_AUTHENTICATING,
+                    payload: {
+                        errorMsg: data.errorMsg
+                    }
+                }))
+            }
+        })
 }
 
 export const login = (emailId, password) => dispatch => {
@@ -91,30 +96,34 @@ export const login = (emailId, password) => dispatch => {
             password: password
         })
     })
-    .then(resp => {
-        if (resp.ok) resp.json().then(data => dispatch({
-            type: LOGIN_USER,
-            payload: data
-        }))
-        else {
-            resp.json().then(data => dispatch({
-                type: ERROR_AUTHENTICATING,
-                payload: {
-                    errorMsg: data.errorMsg
-                }
-            }))
-        }
-    })
+        .then(resp => {
+            if (resp.ok) resp.json().then(data => {
+                localStorage.setItem('userId',emailId);
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: data
+                })
+            })
+            else {
+                resp.json().then(data => dispatch({
+                    type: ERROR_AUTHENTICATING,
+                    payload: {
+                        errorMsg: data.errorMsg
+                    }
+                }))
+            }
+        })
 }
 
 export const logout = () => dispatch => {
     fetch(LOGOUT_USER_URL)
         // .then(resp => resp.json())
         .then(() => {
+            localStorage.removeItem('userId');
             dispatch({
-            type: LOGOUT_USER,
+                type: LOGOUT_USER,
+            })
         })
-    })
 }
 
 export const clearErrorMsg = () => dispatch => {
@@ -138,10 +147,4 @@ export const getTodos = (userId) => dispatch => {
         }))
 }
 
-// IF we can catch the 400 response, then create new action in authReducer (ERROR_LOGGING_IN/REGISTERING)
-
-
-
-
-
-// On logout, clearTodos is not being called. Need to look into that!
+ 

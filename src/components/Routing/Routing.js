@@ -7,6 +7,7 @@ import Filter from '../Filter/Filter';
 import Card from '../Card/Card';
 
 export class Routing extends Component {
+    
     render() {
         return (
             <div className="App">
@@ -22,7 +23,6 @@ export class Routing extends Component {
             </div>
         )
     }
-
 }
 
 const mapStateToProps = state => ({
