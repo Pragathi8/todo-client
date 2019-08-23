@@ -29,3 +29,9 @@
     font-weight: bolder;
     margin-bottom: 1rem;
 }
+
+@media(max-width: 400px){
+    .loginForm{
+        margin-top: 40%
+    }
+}
