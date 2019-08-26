@@ -3,14 +3,25 @@
 const STATIC_CACHE = 'STATIC_CACHE';
 const DYNAMIC_CACHE = 'DYNAMIC_CACHE';
 
+const staticAssets = [
+    '/app.js',
+    '/manifest.json',
+    '/icons/icon-64.png',
+    '/icons/icon-128.png',
+    '/icons/icon-256.png',
+    '/icons/icon-512.png',
+]
+
 self.addEventListener('install', () => {
-    console.log(`Service Worker Installed`);
+    caches.open(STATIC_CACHE).then(cache => cache.addAll(staticAssets))
 })
 
 self.addEventListener('activate', () => {
-    console.log(`Service Worker Activated`);
+    
 })
 
 self.addEventListener('fetch', evt => {
-    console.log(evt.req)
+    evt.respondWith(
+        caches.match(evt.request).then(cacheRes => cacheRes || fetch(evt.request))
+    )
 })
