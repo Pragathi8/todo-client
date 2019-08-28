@@ -36,7 +36,6 @@ class Card extends Component {
     }
 
     componentDidMount() {
-        console.log('from ')
         this.props.getTodos(this.props.user.emailId);
     }
 }

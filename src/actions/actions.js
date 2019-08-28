@@ -1,5 +1,6 @@
 import { ADD_TODO_URL, TOGGLE_TODO_URL, DELETE_TODO_URL, REGISTER_USER_URL, LOGIN_USER_URL, LOGOUT_USER_URL, GET_TODOS_URL } from './databaseRoutes';
 import { ADD_TODO, TOGGLE_TODO, DELETE_TODO, CHANGE_VISIBILITY_FILTER, LOGIN_USER, LOGOUT_USER, CLEAR_ERROR_MSG, CLEAR_TODOS, GET_TODOS, ERROR_AUTHENTICATING } from './types';
+import { addData, putData, deleteData } from './indexedDB';
 
 export const addTodo = (userId, task) => dispatch => {
     fetch(`${ADD_TODO_URL}/${userId}/addTodo`, {
@@ -16,6 +17,18 @@ export const addTodo = (userId, task) => dispatch => {
             type: ADD_TODO,
             payload: data
         }))
+        .catch(err => {
+            addData(task)
+                .then(function (add) {
+                    add.transaction.oncomplete = () => {
+                        dispatch({
+                            type: ADD_TODO,
+                            payload: add.item
+                        })
+                    };
+                })
+        })
+
 }
 
 export const toggleTodo = (userId, id) => dispatch => {
@@ -30,6 +43,14 @@ export const toggleTodo = (userId, id) => dispatch => {
             type: TOGGLE_TODO,
             id: data.id
         }))
+        .catch(() => {
+            putData(id).then(transaction => transaction.oncomplete = () => {
+                dispatch({
+                    type: TOGGLE_TODO,
+                    id: id
+                })
+            })
+        })
 }
 
 export const deleteTodo = (userId, id) => dispatch => {
@@ -44,6 +65,14 @@ export const deleteTodo = (userId, id) => dispatch => {
             type: DELETE_TODO,
             id: data.id
         }))
+        .catch(() => {
+            deleteData(id).then(transaction => transaction.oncomplete = () => {
+                dispatch({
+                    type: DELETE_TODO,
+                    id: id
+                })
+            })
+        })
 }
 
 export const changeFilter = (filter) => dispatch => {
@@ -98,7 +127,7 @@ export const login = (emailId, password) => dispatch => {
     })
         .then(resp => {
             if (resp.ok) resp.json().then(data => {
-                localStorage.setItem('userId',emailId);
+                localStorage.setItem('userId', emailId);
                 dispatch({
                     type: LOGIN_USER,
                     payload: data
@@ -113,6 +142,14 @@ export const login = (emailId, password) => dispatch => {
                 }))
             }
         })
+        .catch(err => {
+            dispatch({
+                type: ERROR_AUTHENTICATING,
+                payload: {
+                    errorMsg: 'Network Issue'
+                }
+            })
+        })
 }
 
 export const logout = () => dispatch => {
@@ -120,6 +157,12 @@ export const logout = () => dispatch => {
         // .then(resp => resp.json())
         .then(() => {
             localStorage.removeItem('userId');
+            dispatch({
+                type: LOGOUT_USER,
+            })
+        })
+        .catch(() => {
+            // localStorage.removeItem('userId');
             dispatch({
                 type: LOGOUT_USER,
             })
@@ -147,4 +190,10 @@ export const getTodos = (userId) => dispatch => {
         }))
 }
 
- 
+/*
+ * Changes for Offline Support
+ *
+ * for login method, error method is being sent
+ *
+ * for logout method, logging out by changing the state and removing id from localStorage. Since it shouldn't be affecting the logging in after online
+ */
