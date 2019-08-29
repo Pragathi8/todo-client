@@ -27,6 +27,7 @@ export const addTodo = (userId, task) => dispatch => {
                         })
                     };
                 })
+            
         })
 
 }
@@ -183,7 +184,9 @@ export const clearTodos = () => dispatch => {
 
 export const getTodos = (userId) => dispatch => {
     fetch(`${GET_TODOS_URL}/${userId}`)
-        .then(resp => resp.json())
+        .then(resp => {
+            return resp.json();
+        })
         .then(data => dispatch({
             type: GET_TODOS,
             payload: data

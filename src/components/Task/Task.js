@@ -20,10 +20,12 @@ class Task extends Component {
         return (
             <li className={className} id={this.props.task.id}>
                 <span className="text" onClick = {(e) => {
-                    this.setState({
-                        isLoading: true
-                    })
-                    this.props.toggleTodo(this.props.user.emailId, e.target.parentElement.id);
+                    if(!e.target.parentElement.className.includes('completed')){
+                        this.setState({
+                            isLoading: true
+                        })
+                        this.props.toggleTodo(this.props.user.emailId, e.target.parentElement.id);
+                    }
                 }} title="click to toggle"> {this.props.task.text}
                 </span>
                 <span className="delete" onClick = {(e) => {

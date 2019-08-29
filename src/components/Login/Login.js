@@ -91,7 +91,6 @@ class Login extends Component {
                     errorMsg: "Passwords doesn't match..!!!"
                 })
             } else {
-                console.log('here');
                 this.props.registerUser(this.state.username, this.state.password);
                 /* this.setState({
                 *     existingUser: true,

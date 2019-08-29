@@ -5,9 +5,20 @@ const storeName = 'todos';
 const openDatabase = () => {
     if ('indexedDB' in window) {
         let req = indexedDB.open('todos_V1', '1');
-
+        req.onsuccess = (event) => {
+            let upgradeDb = event.target.result;
+            if (upgradeDb.objectStoreNames.contains('userId')) {
+            let transaction = upgradeDb.transaction('userId', 'readwrite'),
+                userStore = transaction.objectStore('userId');
+                let userReq = userStore.add({
+                    id: 'userId',
+                    userId: localStorage.getItem('userId')
+                })
+            userReq.onerror = (err) => console.log(err);
+            }
+            upgradeDb.close();
+        }
         req.onupgradeneeded = function (event) {
-            console.log(' In upgrade event');
             let upgradeDb = event.target.result;
             if (!upgradeDb.objectStoreNames.contains(storeName))
                 upgradeDb.createObjectStore(storeName, { keyPath: 'id', });
@@ -70,7 +81,7 @@ export let putData = (id) => {
                     store.put({
                         id: id,
                         text: itemReq.result.text,
-                        type: "UPDATED",
+                        type: "ADDED",
                         completed: !itemReq.result.completed
                     });
                 }
@@ -106,4 +117,8 @@ export let deleteData = (id) => {
  *
  * Background sync should be done!
  *
+ *  If adding and updating is being done while offline, it is stored under ADDED category
+ * 
+ *  If just updated during offline, it is stored unded UPDATED category
+ * 
  */

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 
-const STATIC_CACHE = 'STATIC_CACHE_V1';
-const DYNAMIC_CACHE = 'DYNAMIC_CACHE_V1';
+const STATIC_CACHE = 'STATIC_CACHE_V2';
+const DYNAMIC_CACHE = 'DYNAMIC_CACHE_V2';
 
 const staticAssets = [
     '/',
@@ -43,7 +43,7 @@ self.addEventListener('sync', function (event) {
         event.waitUntil(
             setTimeout(() => {
                 syncData()
-            }, 5000)
+            }, 2000)
            );
     }
 });
@@ -52,7 +52,7 @@ function syncData() {
     if ('indexedDB' in self) {
         let req = indexedDB.open('todos_V1', '1');
         req.onsuccess = (event) => {
-            console.log(`Db opened`);
+
             let db = event.target.result,
                 transaction1 = db.transaction('todos', 'readwrite'),
                 store = transaction1.objectStore('todos'),
@@ -63,46 +63,45 @@ function syncData() {
                 userId;
                 userReq.onsuccess = () => {
                     userId = userReq.result.userId;
+                    userStore.clear();
                 }
                 itemsReq.onsuccess = () => {
-                    console.log(`In items success`);
                     let domain = 'https://limitless-brushlands-35057.herokuapp.com';
                     if (self.location.hostname === 'localhost') domain = 'http://localhost:5000';
                     let items = itemsReq.result;
                     items.forEach(item => {
                         if (item.type === "ADDED") {
-                            console.log(' In added Condition');
                             fetch(`${domain}/${userId}/addTodo`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    task: item.text
+                                    text: item.text,
+                                    completed: item.completed,
+                                    id: item.id
                                 })
                             })
-                        // } else if (item.type === "UPDATED") {
-                        //     fetch(`${domain}/${userId}/toggleTodo/${item.id}`, {
-                        //         method: 'PATCH',
-                        //         headers: {
-                        //             'Content-Type': 'application/json'
-                        //         },
-                        //     })
-                        // } else if (item.type === "DELETED") {
-                        //     fetch(`${domain}/${userId}/deleteTodo/${item.id}`, {
-                        //         method: 'DELETE',
-                        //         headers: {
-                        //             'Content-Type': 'application/json'
-                        //         },
-                        //     })
+                        } else if (item.type === "UPDATED") {
+                            fetch(`${domain}/${userId}/toggleTodo/${item.id}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                        } else if (item.type === "DELETED") {
+                            fetch(`${domain}/${userId}/deleteTodo/${item.id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            })
                         } else {
                             // DO NOTHING
                         }
                     });
+                    store.clear();
                 }
-            transaction1.oncomplete = () => {
-              //  indexedDB.deleteDatabase('todos_V1');
-            }
         }
         return 1;
     }
